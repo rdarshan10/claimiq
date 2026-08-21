@@ -1,0 +1,26 @@
+NORTHBRIDGE INSURANCE PLC
+Personal Injury Policy Schedule
+
+Policy Number: POL-88213-A
+Policyholder: Margaret A. Whitfield
+Address: 42 Hollybush Row, Oxford, OX1 1HU
+
+Period of Insurance:
+Effective From: 01 January 2024
+Expires: 31 December 2024
+
+Cover Summary:
+Personal Injury - Overall Limit:            GBP 50,000
+Medical Expenses - Annual Limit:            GBP 10,000
+  Sub-limit: Physiotherapy                  GBP  2,500
+  Sub-limit: Diagnostic Imaging             GBP  1,500
+Loss of Earnings - Weekly Benefit:          GBP    400
+Excess (per claim):                         GBP    250
+
+General Exclusions:
+- Injury arising from participation in motorsport
+- Pre-existing conditions declared or undeclared at inception
+- Treatment not clinically recommended by a registered practitioner
+- Cosmetic procedures
+
+Premium Paid: GBP 428.00 (annual, paid in full 28 December 2023)

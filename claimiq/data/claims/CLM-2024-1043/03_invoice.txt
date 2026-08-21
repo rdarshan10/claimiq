@@ -1,0 +1,16 @@
+READING ORTHOPAEDIC CLINIC
+Invoice
+
+Invoice Number: ROC-5512
+Invoice Date: 30 May 2024
+Patient: D. Achterberg
+
+--------------------------------------------------------------
+Description                                        Amount
+--------------------------------------------------------------
+Orthopaedic consultation                           240.00
+Wrist splint - custom                              145.00
+Follow-up review                                   120.00
+--------------------------------------------------------------
+                                     TOTAL:        505.00
+--------------------------------------------------------------

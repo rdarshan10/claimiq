@@ -1,0 +1,30 @@
+# ClaimIQ — Insurance Claim Document Intelligence
+# Python 3.11+
+
+# --- Model provider -------------------------------------------------------
+groq>=0.11.0                # OpenAI-compatible chat completions
+python-dotenv>=1.0.0        # loads GROQ_API_KEY from .env
+
+# --- Contracts ------------------------------------------------------------
+pydantic>=2.7.0             # typed stage boundaries; enforces citations
+
+# --- Document ingestion ---------------------------------------------------
+pdfplumber>=0.11.0          # PDF text + table extraction (invoice line items)
+pypdf>=4.2.0                # fallback extractor
+python-dateutil>=2.9.0      # tolerant date parsing
+
+# --- UI and reporting -----------------------------------------------------
+streamlit>=1.36.0           # demo surface (charts, tables, filters)
+pandas>=2.2.0               # tabular rendering
+
+# --- Notes ----------------------------------------------------------------
+# LangChain is deliberately NOT a dependency. The pipeline needs control of
+# every stage boundary for checkpoint/resume, and the audit trail must record
+# the exact prompt and raw response sent to the provider — both work against
+# a framework that abstracts the call. Groq is OpenAI-compatible, so the
+# provider layer is ~40 lines in claimiq/providers/model.py. See ARCHITECTURE.md.
+#
+# No vector database. A claim pack is 20-80 pages and fits in context;
+# chunk-retrieval actively hides cross-document contradictions, which are the
+# highest-value findings. Cross-CLAIM search (fraud rings) is the case where a
+# vector store earns its place — see the Phase 2 section of ARCHITECTURE.md.

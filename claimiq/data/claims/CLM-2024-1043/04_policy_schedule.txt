@@ -1,0 +1,20 @@
+NORTHBRIDGE INSURANCE PLC
+Personal Injury Policy Schedule
+
+Policy Number: POL-91556-C
+Policyholder: Devon R. Achterberg
+
+Period of Insurance:
+Effective From: 15 February 2024
+Expires: 14 February 2025
+
+Cover Summary:
+Personal Injury - Overall Limit:            GBP 25,000
+Medical Expenses - Annual Limit:            GBP  5,000
+  Sub-limit: Physiotherapy                  GBP  1,500
+Excess (per claim):                         GBP    150
+
+General Exclusions:
+- Pre-existing conditions
+- Injury while under the influence of alcohol or drugs
+- Treatment outside the United Kingdom

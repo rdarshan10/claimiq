@@ -1,0 +1,25 @@
+NORTHERN SPINE & SPORTS THERAPY
+Unit 4, Deansgate Business Centre, Manchester
+
+INVOICE
+
+Invoice Number: NSS-2024-0881
+Invoice Date: 21 July 2024
+Patient: T. Vasquez-Hollis
+Claim Reference: CLM-2024-1188
+Service Period: 10 June 2024 to 16 July 2024
+
+--------------------------------------------------------------
+Description                          Qty    Unit      Amount
+--------------------------------------------------------------
+Initial assessment                     1    120.00     120.00
+Physiotherapy - intensive              18    95.00    1710.00
+Hydrotherapy session                   12   110.00    1320.00
+Spinal manipulation                     8   130.00    1040.00
+Rehabilitation equipment hire           1   450.00     450.00
+Additional administrative fee           1    95.00      95.00
+--------------------------------------------------------------
+                                       Subtotal:     4735.00
+                                       VAT (20%):     947.00
+                                       TOTAL GBP:    5682.00
+--------------------------------------------------------------

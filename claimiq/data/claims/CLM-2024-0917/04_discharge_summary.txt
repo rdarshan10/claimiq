@@ -1,0 +1,23 @@
+OXFORD UNIVERSITY HOSPITALS NHS FOUNDATION TRUST
+Emergency Department Discharge Summary
+
+Patient: Margaret A. Whitfield
+DOB: 07/06/1979
+Attendance: 09 March 2024
+Discharged: 09 March 2024 at 20:15
+
+Summary of Care:
+Attended following RTC. Assessed by ED clinician. Cervical and lumbar strain
+diagnosed clinically. Imaging not indicated per Canadian C-Spine Rule.
+Analgesia provided. Discharged home in stable condition, ambulant.
+
+Discharge Medications:
+- Paracetamol 500mg tablets, 32 tablets, 1-2 QDS PRN
+- Ibuprofen 400mg tablets, 24 tablets, TDS with food
+
+Follow-up Arranged:
+- Outpatient physiotherapy referral submitted
+- GP review in 14 days
+
+Fit for discharge: Yes
+Discharging Clinician: Dr. S. Ramanathan

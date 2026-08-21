@@ -1,0 +1,17 @@
+# Secrets
+.env
+*.env
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Runtime artefacts — checkpoints, results, queues, feedback
+data/
+!data/.gitkeep
+
+# Streamlit
+.streamlit/secrets.toml

@@ -1,0 +1,39 @@
+OXFORD UNIVERSITY HOSPITALS NHS FOUNDATION TRUST
+Emergency Department - Clinical Report
+
+Patient Name: Margaret A. Whitfield
+Date of Birth: 07/06/1979
+NHS Number: 485 777 3456
+Attendance Date: 09 March 2024, 16:42
+Discharge Date: 09 March 2024, 20:15
+
+Presenting Complaint:
+Patient presented following a rear-impact road traffic collision occurring at
+approximately 15:30 on 09 March 2024. Complains of posterior neck pain radiating
+to both shoulders, and lumbar discomfort.
+
+Examination:
+Alert and orientated, GCS 15/15. Cervical spine: tenderness over C4-C6
+paraspinal musculature. Range of motion reduced by approximately 30 percent in
+rotation bilaterally. No midline bony tenderness. Neurovascular examination of
+upper limbs intact. Lumbar spine: mild paraspinal tenderness L3-L5. Straight leg
+raise negative bilaterally.
+
+Investigations:
+Canadian C-Spine Rule applied - imaging not indicated. No radiography performed.
+
+Diagnosis:
+1. Acute cervical strain (whiplash-associated disorder grade II) - ICD-10 S13.4
+2. Lumbar strain - ICD-10 S33.5
+
+Treatment Plan:
+- Simple analgesia: paracetamol 1g QDS, ibuprofen 400mg TDS with food
+- Early mobilisation advised, no collar
+- Referral to outpatient physiotherapy
+- GP follow-up in 2 weeks
+
+Prior Relevant Conditions: None documented. No previous spinal injury.
+
+Clinician: Dr. S. Ramanathan, MBBS MRCEM
+GMC: 7214498
+Date: 09 March 2024

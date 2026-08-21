@@ -1,0 +1,36 @@
+MANCHESTER ROYAL INFIRMARY
+Emergency Department Clinical Report
+
+Patient Name: Terrence J. Vasquez-Hollis
+Date of Birth: 14/02/1971
+Attendance Date: 03 June 2024, 11:20
+Discharge Date: 03 June 2024, 14:05
+
+Presenting Complaint:
+Patient self-presented to the Emergency Department by private vehicle following
+a minor road traffic collision earlier that morning. Complains of lower back
+discomfort. No knee complaint recorded at presentation.
+
+Examination:
+Ambulant on arrival, no distress. Lumbar spine: mild paraspinal tenderness L4-L5.
+Full range of motion. Straight leg raise negative bilaterally. Neurovascular
+examination intact. Left knee examined - no effusion, no joint line tenderness,
+full range of motion, ligamentous examination stable (anterior drawer negative,
+Lachman negative, collateral ligaments intact).
+
+Investigations:
+No imaging clinically indicated.
+
+Diagnosis:
+1. Mild lumbar soft tissue strain - ICD-10 S33.5
+
+Treatment Plan:
+- Simple analgesia
+- Advised to remain active
+- No follow-up required unless symptoms persist beyond 4 weeks
+
+Disposal: Discharged home same day, ambulant. NOT ADMITTED.
+
+Clinician: Dr. A. Nakamura, MBBS
+GMC: 7788201
+Date: 03 June 2024

@@ -1,0 +1,27 @@
+OXFORD PHYSIOTHERAPY ASSOCIATES
+17 Banbury Road, Oxford, OX2 6NN
+Provider Registration: HCPC PH-44821
+
+INVOICE
+
+Invoice Number: OPA-2024-3387
+Invoice Date: 22 April 2024
+Patient: Margaret A. Whitfield
+Claim Reference: CLM-2024-0917
+Service Period: 25 March 2024 to 19 April 2024
+
+--------------------------------------------------------------
+Description                          Qty    Unit      Amount
+--------------------------------------------------------------
+Initial assessment (45 min)            1    85.00      85.00
+Physiotherapy session (30 min)         6    55.00     330.00
+Manual therapy - cervical              4    45.00     180.00
+Home exercise programme                1    35.00      35.00
+--------------------------------------------------------------
+                                       Subtotal:      630.00
+                                       VAT (0%):        0.00
+                                       TOTAL GBP:     630.00
+--------------------------------------------------------------
+
+Payment Terms: 30 days
+Bank: Barclays | Sort 20-65-21 | Acc 40028871

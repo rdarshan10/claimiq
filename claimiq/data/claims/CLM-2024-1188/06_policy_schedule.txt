@@ -1,0 +1,23 @@
+NORTHBRIDGE INSURANCE PLC
+Personal Injury Policy Schedule
+
+Policy Number: POL-77401-B
+Policyholder: Terrence J. Vasquez-Hollis
+
+Period of Insurance:
+Effective From: 01 July 2023
+Expires: 30 June 2024
+
+Cover Summary:
+Personal Injury - Overall Limit:            GBP 40,000
+Medical Expenses - Annual Limit:            GBP 12,000
+  Sub-limit: Physiotherapy                  GBP  2,000
+  Sub-limit: Surgical Procedures            GBP  8,000
+Excess (per claim):                         GBP    500
+
+General Exclusions:
+- Pre-existing conditions
+- Treatment not clinically recommended by a registered practitioner
+- Elective or cosmetic procedures
+
+RENEWAL STATUS: Policy lapsed 30 June 2024. Renewal not completed.

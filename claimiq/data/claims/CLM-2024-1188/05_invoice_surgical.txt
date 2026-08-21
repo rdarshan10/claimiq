@@ -1,0 +1,22 @@
+PENNINE PRIVATE ORTHOPAEDICS
+Invoice
+
+Invoice Number: PPO-19947
+Invoice Date: 09 August 2024
+Patient: Terrence J. Vasquez-Hollis
+Claim Reference: CLM-2024-1188
+
+--------------------------------------------------------------
+Description                                Code      Amount
+--------------------------------------------------------------
+Arthroscopic ACL reconstruction, left knee  29888    6800.00
+Theatre and anaesthetic charges                      2200.00
+Overnight inpatient stay (1 night)                    850.00
+Post-operative review                                 180.00
+--------------------------------------------------------------
+                                     Subtotal:      10030.00
+                                     TOTAL GBP:     10030.00
+--------------------------------------------------------------
+
+Procedure Date: 05 August 2024
+Surgeon: Mr. D. Fairbairn FRCS
