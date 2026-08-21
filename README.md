@@ -9,29 +9,77 @@ with every finding traced back to a verified quote in a source document.
 
 ---
 
-## Quick start
+## Install
+
+Requires **Python 3.11+**.
 
 ```bash
+git clone https://github.com/rdarshan10/claimiq.git
+cd claimiq
 pip install -r requirements.txt
-
-cp .env.example .env          # then add your GROQ_API_KEY
-python -m claimiq.data.generate   # write the synthetic claim packs
-
-streamlit run claimiq/ui/app.py   # demo UI
 ```
 
-Batch and evaluation:
+Add your API key — the app reads it from `.env`, never from source:
 
 ```bash
-python -m claimiq.batch claimiq/data/claims     # process every claim, resumable
-python -m claimiq.evals.run_eval                # accuracy report
+cp .env.example .env
 ```
 
-Run with no credentials at all:
+Then edit `.env` and set `GROQ_API_KEY=gsk_...`
+(free key from [console.groq.com](https://console.groq.com)).
+
+> The three synthetic claim packs are already in the repo. No generation step
+> is needed — `python -m claimiq.data.generate` only *re*writes them.
+
+## Run
 
 ```bash
-CLAIMIQ_PROVIDER=mock python -m claimiq.batch claimiq/data/claims
+python -m streamlit run claimiq/ui/app.py
 ```
+
+Opens at http://localhost:8501.
+
+> Use `python -m streamlit`, not bare `streamlit` — pip installs the launcher
+> outside PATH on many Windows setups.
+
+**Try it without an API key.** The mock provider runs the whole pipeline
+offline in about a second — useful for exploring the UI:
+
+```bash
+# macOS / Linux
+CLAIMIQ_PROVIDER=mock python -m streamlit run claimiq/ui/app.py
+
+# Windows PowerShell
+$env:CLAIMIQ_PROVIDER="mock"; python -m streamlit run claimiq/ui/app.py
+```
+
+### Command line
+
+```bash
+python prepare_demo.py                       # check quota, pre-process every claim
+python -m claimiq.batch claimiq/data/claims  # batch run, resumable
+python -m claimiq.evals.run_eval             # accuracy report vs. gold labels
+python -m claimiq.evals.test_deterministic   # 61 offline tests, no API key needed
+python -m claimiq.stages.crossclaim          # cross-claim fraud signals
+```
+
+### First run
+
+Start with **Review a claim → `CLM-2024-1188`** — the claim built to contain
+realistic problems. Press **Process claim**, then open the **Findings** tab.
+
+On a free-tier key the first run takes a few minutes (see quotas below).
+Results are checkpointed, so afterwards they load instantly.
+
+### Troubleshooting
+
+| Symptom | Cause and fix |
+|---|---|
+| `streamlit: command not found` | Use `python -m streamlit run ...` |
+| `GROQ_API_KEY not set` | Create `.env` from `.env.example` and add the key |
+| Run stalls for minutes | Free-tier rate limit — expected; see quotas below |
+| `tokens per day (TPD)` error | Daily quota spent. It falls back to a smaller model automatically; otherwise wait for reset or use `CLAIMIQ_PROVIDER=mock` |
+| `ModuleNotFoundError: claimiq` | Run commands from the repo root |
 
 ---
 
