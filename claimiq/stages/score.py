@@ -26,7 +26,13 @@ _RISK_WEIGHT = {
 }
 
 AUTO_APPROVE_CEILING = 0.15
-INVESTIGATE_FLOOR = 0.50
+# INVESTIGATE is the expensive route — it means a human opens an investigation,
+# not merely a careful read. Reserve it for a CRITICAL finding or a genuine
+# pile-up of serious ones. At 0.50 a claim with two HIGH findings and no
+# CRITICAL escalated to investigate, which over-triages exactly the routine
+# incomplete claims that REVIEW exists to handle.
+INVESTIGATE_FLOOR = 0.75
+INVESTIGATE_HIGH_COUNT = 3  # this many HIGH findings also warrants investigation
 
 
 def compute_completeness(ctx: Context) -> Completeness:
@@ -89,11 +95,15 @@ def recommend(ctx: Context) -> Recommendation:
         return Recommendation.REVIEW
 
     has_critical = any(f.severity == Severity.CRITICAL for f in r.findings)
-    has_high = any(f.severity == Severity.HIGH for f in r.findings)
+    highs = sum(1 for f in r.findings if f.severity == Severity.HIGH)
 
-    if has_critical or r.risk_score >= INVESTIGATE_FLOOR:
+    if (
+        has_critical
+        or highs >= INVESTIGATE_HIGH_COUNT
+        or r.risk_score >= INVESTIGATE_FLOOR
+    ):
         return Recommendation.INVESTIGATE
-    if has_high or r.risk_score > AUTO_APPROVE_CEILING or r.completeness.score < 0.95:
+    if highs or r.risk_score > AUTO_APPROVE_CEILING or r.completeness.score < 0.95:
         return Recommendation.REVIEW
     return Recommendation.AUTO_APPROVE
 

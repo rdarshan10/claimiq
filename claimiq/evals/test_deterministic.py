@@ -431,6 +431,99 @@ def test_quota_fallback() -> None:
         M.set_provider(original) if original else M.set_provider(M.MockProvider())
 
 
+def test_prompt_sizing_follows_fallback() -> None:
+    """Prompts must be sized for the model that will actually serve the call.
+
+    Regression: after a quota fallback the output budget shrinks, but evidence
+    was still sized from ROUTING's configured value. The combined request
+    overflowed the window and returned HTTP 413 — which silently dropped an
+    entire reasoner from the analysis while the claim still looked processed.
+    """
+    print("\nprompt sizing under fallback")
+    import claimiq.providers.model as M
+
+    exhausted_before = set(M._exhausted)
+    try:
+        M._exhausted.clear()
+        normal = M.effective_max_tokens(M.Task.REASON)
+        normal_model = M.effective_profile(M.Task.REASON).model
+
+        M._exhausted.add("openai/gpt-oss-120b")
+        fallen_back = M.effective_max_tokens(M.Task.REASON)
+        fb_model = M.effective_profile(M.Task.REASON).model
+
+        check("normal path uses the primary model",
+              normal_model == "openai/gpt-oss-120b", f"got {normal_model}")
+        check("fallback path switches model",
+              fb_model == "openai/gpt-oss-20b", f"got {fb_model}")
+        check("fallback budget is capped lower", fallen_back < normal,
+              f"{fallen_back} vs {normal}")
+        check("fallback budget respects the cap",
+              fallen_back <= M.FALLBACK_MAX_TOKENS)
+
+        # Evidence must shrink correspondingly.
+        ctx = _ctx([])
+        ctx.result.documents = [
+            Document(doc_id=f"d{i}", filename=f"f{i}.txt",
+                     pages=[Page(number=1, text="word " * 4000)])
+            for i in range(3)
+        ]
+        from claimiq.stages.reason import _build_evidence
+
+        M._exhausted.clear()
+        big = len(_build_evidence(ctx))
+        M._exhausted.add("openai/gpt-oss-120b")
+        small = len(_build_evidence(ctx))
+        check("evidence grows when the output budget shrinks", small > big,
+              f"fallback={small} primary={big}")
+
+        # The whole request must still fit the window in both cases.
+        for label, ev_len, out in (("primary", big, normal),
+                                   ("fallback", small, fallen_back)):
+            total = ev_len / 3.2 + out
+            check(f"{label} request fits the TPM window",
+                  total <= M.LIMITER.budget,
+                  f"{total:.0f} > {M.LIMITER.budget}")
+    finally:
+        M._exhausted.clear()
+        M._exhausted.update(exhausted_before)
+
+
+def test_routing_thresholds() -> None:
+    """Routing must separate 'read this carefully' from 'open an investigation'.
+
+    INVESTIGATE is the expensive route. An earlier threshold sent any claim
+    with two HIGH findings there, which over-triages the routine incomplete
+    claims that REVIEW exists to handle.
+    """
+    print("\nrouting thresholds")
+    from claimiq.stages.score import compute_risk, recommend
+
+    def route(severities: list[Severity], completeness: float = 1.0) -> str:
+        r = ClaimResult(claim_id="T")
+        for s in severities:
+            r.findings.append(
+                Finding(kind=FindingKind.DUPLICATE, severity=s, title="t", detail="d")
+            )
+        r.completeness.score = completeness
+        c = Context(claim_id="T", result=r, workdir=Path("."))
+        r.risk_score = compute_risk(c)
+        return recommend(c).value
+
+    S = Severity
+    check("clean claim auto-approves", route([]) == "auto_approve")
+    check("trivial findings still auto-approve",
+          route([S.LOW, S.LOW]) == "auto_approve")
+    check("one high goes to review", route([S.HIGH]) == "review")
+    check("two highs stay at review",
+          route([S.HIGH, S.HIGH, S.MEDIUM, S.MEDIUM], 0.94) == "review",
+          f"got {route([S.HIGH, S.HIGH, S.MEDIUM, S.MEDIUM], 0.94)}")
+    check("three highs escalate", route([S.HIGH] * 3) == "investigate")
+    check("any critical escalates", route([S.CRITICAL]) == "investigate")
+    check("incomplete documentation blocks auto-approve",
+          route([], completeness=0.8) == "review")
+
+
 def main() -> int:
     print("ClaimIQ deterministic tests (no model calls)")
     print("=" * 52)
@@ -446,6 +539,8 @@ def main() -> int:
     test_degradation_is_loud()
     test_rate_limit_not_a_circuit_fault()
     test_quota_fallback()
+    test_prompt_sizing_follows_fallback()
+    test_routing_thresholds()
     print("=" * 52)
     if _failures:
         print(f"{len(_failures)} FAILED: {', '.join(_failures)}")

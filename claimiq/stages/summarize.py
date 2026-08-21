@@ -47,9 +47,9 @@ class SummarizeStage:
             ctx.progress(self.name, "no text to summarise")
             return
 
-        from claimiq.providers.model import LIMITER, ROUTING
+        from claimiq.providers.model import LIMITER, effective_max_tokens
 
-        room = LIMITER.tpm - ROUTING[Task.SUMMARIZE].max_tokens - 800
+        room = LIMITER.budget - effective_max_tokens(Task.SUMMARIZE) - 800
         budget = max(600, int(room * 3.2) // max(1, len(docs)))
         evidence = "\n\n".join(
             f"=== {d.filename} ({d.doc_type.value}) ===\n{d.text[:budget]}" for d in docs

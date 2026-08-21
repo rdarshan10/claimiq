@@ -166,9 +166,9 @@ def extract_document(doc: Document, ctx: Context) -> DocExtraction:
 
     # Size the document excerpt to what fits alongside the output budget in one
     # TPM window. Oversized prompts do not degrade gracefully — they 413.
-    from claimiq.providers.model import LIMITER, ROUTING
+    from claimiq.providers.model import LIMITER, effective_max_tokens
 
-    room = LIMITER.tpm - ROUTING[Task.EXTRACT].max_tokens - 700
+    room = LIMITER.budget - effective_max_tokens(Task.EXTRACT) - 700
     content_chars = max(2000, int(room * 3.2))
 
     prompt = _PROMPT.format(
@@ -261,9 +261,9 @@ def reextract_low_confidence(
     if not weak:
         return 0
 
-    from claimiq.providers.model import LIMITER, ROUTING
+    from claimiq.providers.model import LIMITER, effective_max_tokens
 
-    room = LIMITER.tpm - ROUTING[Task.EXTRACT].max_tokens - 700
+    room = LIMITER.budget - effective_max_tokens(Task.EXTRACT) - 700
     prompt = _RETRY_PROMPT.format(
         fields=", ".join(weak),
         filename=doc.filename,
@@ -316,9 +316,9 @@ class ExtractStage:
         """
         if self.max_workers is not None:
             return self.max_workers
-        from claimiq.providers.model import LIMITER, ROUTING
+        from claimiq.providers.model import LIMITER, effective_max_tokens
 
-        per_call = ROUTING[Task.EXTRACT].max_tokens + 2000
+        per_call = effective_max_tokens(Task.EXTRACT) + 2000
         return max(1, min(6, doc_count, int(LIMITER.tpm // max(1, per_call))))
 
     def run(self, ctx: Context) -> None:

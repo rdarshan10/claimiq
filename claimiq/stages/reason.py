@@ -123,11 +123,16 @@ def _build_evidence(ctx: Context, max_chars: int | None = None) -> str:
     fixed constant: on a constrained tier the whole request (evidence +
     reasoning trace + answer) must fit inside one minute's budget.
     """
-    from claimiq.providers.model import LIMITER, ROUTING, Task
+    from claimiq.providers.model import LIMITER, Task, effective_max_tokens
 
     if max_chars is None:
-        out_budget = ROUTING[Task.REASON].max_tokens
-        input_tokens = max(1200, LIMITER.tpm - out_budget - 900)
+        # Size against the budget of the model that will actually serve this
+        # call. When the primary model's daily quota is spent, invoke() falls
+        # back to a smaller one whose output budget is capped lower — sizing
+        # from the configured value produced a 413 that silently dropped a
+        # whole reasoner from the analysis.
+        out_budget = effective_max_tokens(Task.REASON)
+        input_tokens = max(1200, LIMITER.budget - out_budget - 900)
         max_chars = int(input_tokens * 3.2)
 
     docs = [d for d in ctx.result.documents if d.text.strip()]
@@ -298,9 +303,9 @@ class ReasonStage:
         # reasoner request is a large fraction of a constrained window, so
         # fanning out 3-wide just forces all three to queue inside the limiter.
         # On a higher tier, raise CLAIMIQ_TPM and this widens automatically.
-        from claimiq.providers.model import LIMITER, ROUTING
+        from claimiq.providers.model import LIMITER, effective_max_tokens
 
-        per_call = ROUTING[Task.REASON].max_tokens + len(evidence) // 3.5
+        per_call = effective_max_tokens(Task.REASON) + len(evidence) // 3.5
         workers = max(1, min(len(REASONERS), int(LIMITER.tpm // max(1, per_call))))
 
         if workers == 1:

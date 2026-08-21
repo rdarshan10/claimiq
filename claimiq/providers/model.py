@@ -421,6 +421,33 @@ FALLBACK_MODEL: dict[str, str] = {
 _exhausted: set[str] = set()
 _exhausted_lock = threading.Lock()
 
+# Cap applied to a fallback model's output budget — it inherits the task's
+# intent but not necessarily the primary model's capacity.
+FALLBACK_MAX_TOKENS = 2048
+
+
+def effective_profile(task: Task) -> TaskProfile:
+    """The profile a call will really use, accounting for quota fallback.
+
+    Stages that size their own prompts must ask this rather than reading
+    ROUTING directly: after a fallback the output budget shrinks, and a prompt
+    sized for the original budget overflows the window (HTTP 413).
+    """
+    profile = ROUTING[task]
+    with _exhausted_lock:
+        spent = profile.model in _exhausted
+    if spent and profile.model in FALLBACK_MODEL:
+        return TaskProfile(
+            FALLBACK_MODEL[profile.model], profile.temperature,
+            min(profile.max_tokens, FALLBACK_MAX_TOKENS),
+            profile.reasoning_effort, profile.json_mode,
+        )
+    return profile
+
+
+def effective_max_tokens(task: Task) -> int:
+    return effective_profile(task).max_tokens
+
 
 def invoke(
     prompt: str,
@@ -440,14 +467,8 @@ def invoke(
     last_err: Exception | None = None
 
     # Skip a model already known to be out of daily budget.
-    with _exhausted_lock:
-        spent = profile.model in _exhausted
-    if spent and allow_fallback and profile.model in FALLBACK_MODEL:
-        profile = TaskProfile(
-            FALLBACK_MODEL[profile.model], profile.temperature,
-            min(profile.max_tokens, 2048), profile.reasoning_effort,
-            profile.json_mode,
-        )
+    if allow_fallback and profile_override is None:
+        profile = effective_profile(task)
 
     # A request larger than the whole TPM window can never succeed. Trim the
     # output budget to what actually fits rather than 413-ing on every attempt.
@@ -529,7 +550,7 @@ def invoke(
                 if allow_fallback and fallback and fallback not in _exhausted:
                     profile = TaskProfile(
                         fallback, profile.temperature,
-                        min(profile.max_tokens, 2048),
+                        min(profile.max_tokens, FALLBACK_MAX_TOKENS),
                         profile.reasoning_effort, profile.json_mode,
                     )
                     continue
